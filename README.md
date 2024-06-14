@@ -15,7 +15,7 @@
 
 # FEATURES
 
--login
+-logingi
 -sign in page
 -Browse(after authentication)
 -header
