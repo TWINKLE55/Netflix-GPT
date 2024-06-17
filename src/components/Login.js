@@ -7,11 +7,10 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/Firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { Avtar_URL } from "../utils/constants";
 const Login = () => {
-  const navigate = useNavigate();
   const Name = useRef(null);
   const Email = useRef(null);
   const Password = useRef(null);
@@ -36,8 +35,7 @@ const Login = () => {
 
           updateProfile(user, {
             displayName: Name.current.value,
-            photoURL:
-              "https://avatars.githubusercontent.com/u/115078590?s=48&v=4",
+            photoURL: Avtar_URL,
           })
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
@@ -50,13 +48,11 @@ const Login = () => {
                   photoURL: photoURL,
                 })
               );
-              navigate("/browse");
             })
             .catch((error) => {
               setError("Error");
             });
           console.log(user);
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -73,7 +69,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          navigate("/browse");
+
           // console.log(user);
         })
         .catch((error) => {
