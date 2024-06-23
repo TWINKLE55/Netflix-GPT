@@ -26,6 +26,15 @@
 -make it autoplay and mute
 -tailwind classes
 -secondary container
+-movieList
+-buit movie card
+-imge cdn
+-ui browse aawesome
+-usePopular Movies custom hook
+-search page
+-search bar
+-language
+-api for AI suggestions
 
 # FEATURES
 
