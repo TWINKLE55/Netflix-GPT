@@ -16,9 +16,14 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
+
   const handleToggle = () => {
     dispatch(toggleGptSearch());
+    {
+      GptSearchValue ? navigate("/browse") : navigate("/browse/gpt");
+    }
   };
+
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {})
@@ -40,7 +45,6 @@ const Header = () => {
             photoURL: photoURL,
           })
         );
-        navigate("/browse");
       } else {
         dispatch(removeUser());
         navigate("/");

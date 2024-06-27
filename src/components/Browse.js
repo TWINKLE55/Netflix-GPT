@@ -7,8 +7,10 @@ import useTrendingMovies from "../hooks/useTrendingMovies copy";
 import useUpcomingMovies from "../hooks/useUpcomingMovies copy";
 import GptSearch from "./GptSearch";
 import { useSelector } from "react-redux";
+import SepVideo from "./SepVideo";
 const Browse = () => {
   const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+  const showDetails = useSelector((store) => store.gpt.showDetails);
   useNowPlayingMovies();
   useNowPopularMovies();
   useTrendingMovies();

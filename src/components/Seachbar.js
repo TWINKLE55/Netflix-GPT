@@ -1,12 +1,15 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import lang from "../utils/lang";
 import { useDispatch, useSelector } from "react-redux";
 import { API_Options } from "../utils/constants";
-import { addGptMovies } from "../utils/gptSlice";
+import { addGptMovies, toggleGptSearch } from "../utils/gptSlice";
 
 const Seachbar = () => {
   const inputValue = useRef(null);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(toggleGptSearch());
+  }, []);
   const fetchMovie = async (movie) => {
     const data = await fetch(
       "https://api.themoviedb.org/3/search/movie?query=" +
@@ -24,60 +27,70 @@ const Seachbar = () => {
     const gptQuery =
       "Act as a movies recommendation system and suggest some movies for query" +
       inputValue.current.value +
-      ". only give me 5 movies name without year and dont give any other informtion just movie names , comma separated  like the example results given ahead example result : Gadder , sholay , Don , Golmaal , Koi Mil Gaya apart from names no other statements need not your extra statement follow my instruction strictly ";
+      ". only give me 5 movies name without year and dont give any other informtion just movie names , comma separated  like the example results given ahead example result : Gadder , sholay , Don , Golmaal , Koi Mil Gaya apart from names no other statements need not your extra statement follow my instruction strictly don't write no. in front of movie name";
+    // const url = "https://chatgpt-gpt4-ai-chatbot.p.rapidapi.com/ask";
+    // const options = {
+    //   method: "POST",
+    //   headers: {
+    //     "x-rapidapi-key": "08a99c1b92msha891b48911f4b0ap117753jsn394ba9148f04",
+    //     "x-rapidapi-host": "chatgpt-gpt4-ai-chatbot.p.rapidapi.com",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     query: gptQuery,
+    //   }),
+    // };
 
-    const url =
-      "https://openai-api-gpt-3-5-turbo.p.rapidapi.com/api/v1/chat/completions";
+    // try {
+    //   const response = await fetch(url, options);
+    //   const result = await response.json();
+
+    // } catch (error) {
+    //   console.error(error);
+    // }
+
+    const url = "https://chatgpt-42.p.rapidapi.com/conversationgpt4-2";
     const options = {
       method: "POST",
       headers: {
-        "x-rapidapi-key": "ebe78595ccmshe4dbdb6beca195cp1b82f3jsn3cf5ce3e0b12",
-        "x-rapidapi-host": "openai-api-gpt-3-5-turbo.p.rapidapi.com",
+        "x-rapidapi-key": "08a99c1b92msha891b48911f4b0ap117753jsn394ba9148f04",
+        "x-rapidapi-host": "chatgpt-42.p.rapidapi.com",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "mistral-7b",
         messages: [
-          // {
-          //   role: "assistant",
-          //   content: gptQuery,
-          // },
           {
             role: "user",
             content: gptQuery,
           },
         ],
-        temperature: 0.5,
-        top_p: 0.95,
-        max_tokens: -1,
-        use_cache: false,
-        stream: false,
+        system_prompt: "",
+        temperature: 0.9,
+        top_k: 5,
+        top_p: 0.9,
+        max_tokens: 256,
+        web_access: false,
       }),
     };
 
     try {
       const response = await fetch(url, options);
       const result = await response.json();
-      // console.log(result);
-      const gptMovies = result?.choices[0]?.message?.content?.split(",");
-
+      // console.log(result.result);
+      const gptMovies = result?.result?.split(",");
       // console.log(gptMovies);
-
       const promiseArray = gptMovies.map((movie) => fetchMovie(movie));
-
       const movies = await Promise.all(promiseArray);
-      // const movie = await fetchMovie(gptMovies[0]);
       dispatch(addGptMovies({ movieNames: gptMovies, movieResults: movies }));
-      // console.log(movies);
     } catch (error) {
       console.error(error);
     }
   };
 
   const langKey = useSelector((store) => store.config.identifier);
-
+  // console.log(langKey);
   return (
-    <div className=" flex pt-[40%] md:p-[10%]  justify-center items-center w-screen ">
+    <div className=" flex pt-[40%] md:p-[10%]  justify-center items-center w-[100%] ">
       <form
         className="shadow-black shadow-2xl rounded-lg md:w-[65%] flex bg-black"
         onSubmit={(e) => {
