@@ -75,7 +75,7 @@ const Seachbar = () => {
   };
 
   const langKey = useSelector((store) => store.config.identifier);
-  // console.log(langKey);
+
   return (
     <div className=" flex pt-[40%] md:p-[10%]  justify-center items-center w-screen ">
       <form
