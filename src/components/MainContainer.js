@@ -15,7 +15,7 @@ const MainContainer = () => {
   // console.log(id);
   return (
     <div className="">
-      <VideoTitle title={title} overview={overview} />
+      <VideoTitle title={title} id={id} overview={overview} />
       <VideoBackground id={id} />
     </div>
   );

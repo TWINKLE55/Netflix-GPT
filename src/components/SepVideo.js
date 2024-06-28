@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
 import useMovieDetails from "../hooks/useDetails";
 import { Poster_link } from "../utils/constants";
 import CastCard from "./CastCard";
 import { useParams } from "react-router-dom";
 import lang from "../utils/lang";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleGptSearch, toggleGptSearchTrue } from "../utils/gptSlice";
 const SepVideo = () => {
+  const dispatch = useDispatch();
   const id = useParams();
   const { details, similarMovie, credit } = useMovieDetails(id);
   const langKey = useSelector((store) => store.config.identifier);
+  useEffect(() => {
+    dispatch(toggleGptSearchTrue());
+  }, []);
   // console.log(details);
   // console.log(credit?.cast);
   // console.log(similarMovie);
