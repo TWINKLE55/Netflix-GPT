@@ -18,10 +18,11 @@ const Header = () => {
   const user = useSelector((store) => store.user);
 
   const handleToggle = () => {
+    navigate("/browse/gpt");
+  };
+  const handleToggleHome = () => {
     dispatch(toggleGptSearch());
-    {
-      GptSearchValue ? navigate("/browse") : navigate("/browse/gpt");
-    }
+    navigate("/browse");
   };
 
   const handleSignOut = () => {
@@ -63,12 +64,24 @@ const Header = () => {
         <div className="flex justify-center">
           {/* <img className="w-20 rounded-full" src={user?.photoURL} /> */}
 
-          <button
-            onClick={handleToggle}
-            className="bg-red-600 p-2  text-white h-10 mt-3 text-center rounded-lg mx-2"
-          >
-            {GptSearchValue ? "Home" : "GPT Search"}
-          </button>
+          {!GptSearchValue && (
+            <button
+              onClick={handleToggle}
+              className="bg-red-600 p-2  text-white h-10 mt-3 text-center rounded-lg mx-2"
+            >
+              GPT Search
+            </button>
+          )}
+
+          {GptSearchValue && (
+            <button
+              onClick={handleToggleHome}
+              className="bg-red-600 p-2  text-white h-10 mt-3 text-center rounded-lg mx-2"
+            >
+              Home
+            </button>
+          )}
+
           <button
             onClick={handleSignOut}
             className="bg-red-600 p-2  text-white h-10 mt-3 text-center rounded-lg mx-2"

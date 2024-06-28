@@ -18,14 +18,8 @@ const Browse = () => {
   return (
     <div>
       <Header />
-      {showGptSearch ? (
-        <GptSearch />
-      ) : (
-        <>
-          <MainContainer />
-          <SecondaryContainer />
-        </>
-      )}
+      <MainContainer />
+      <SecondaryContainer />
     </div>
   );
 };
